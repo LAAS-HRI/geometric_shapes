@@ -69,12 +69,20 @@ catkin_package(
     console_bridge
   )
 
-find_package(QHULL REQUIRED)
+set(QHULL_DIR /home/yriou/lib/qhull)
+#find_package(PkgConfig REQUIRED)
+#pkg_check_modules(qhull REQUIRED qhull_r)
+#find_package(Qhull REQUIRED)
+
+#message("${Qhull_INCLUDE_DIRS}")
+set(Qhull_INCLUDE_DIRS ${QHULL_DIR}/include/libqhull_r ${QHULL_DIR}/include/libqhullcpp ${QHULL_DIR}/include/libqhull)
+set(Qhull_LIBRARIES ${QHULL_DIR}/lib/libqhull_rd.so)
+
 
 include_directories(include)
 include_directories(SYSTEM
   ${EIGEN3_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${ASSIMP_INCLUDE_DIRS} ${OCTOMAP_INCLUDE_DIRS}
-  ${QHULL_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} ${console_bridge_INCLUDE_DIRS})
+  ${Qhull_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} ${console_bridge_INCLUDE_DIRS})
 
 add_library(${PROJECT_NAME}
   src/aabb.cpp
@@ -89,7 +97,7 @@ add_library(${PROJECT_NAME}
 target_compile_options(${PROJECT_NAME} PRIVATE ${PROJECT_COMPILE_OPTIONS})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION})
 
-target_link_libraries(${PROJECT_NAME} ${ASSIMP_LIBRARIES} ${QHULL_LIBRARIES} ${catkin_LIBRARIES} ${console_bridge_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${ASSIMP_LIBRARIES} ${Qhull_LIBRARIES} ${catkin_LIBRARIES} ${console_bridge_LIBRARIES} ${Boost_LIBRARIES})
 
 
 if(CATKIN_ENABLE_TESTING)
